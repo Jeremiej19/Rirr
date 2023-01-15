@@ -30,7 +30,7 @@ function BaseFunctionDerivative( prev , xi , next , h ) {
     }
 }
 
-function defintegral( fn , a ,b  ) {
+function defintegral( fn , a ,b ) {
     return gaussLegendre( fn, Math.max(a,DomainL), Math.min(b,DomainR) , 5 );
 }
 
@@ -51,14 +51,13 @@ function p(x) {
 }
 
 function _L(v,a,b) {
-    return defintegral(x => { return p(x) * v(x)/eR(x) },a,b) + 5*v(0);
+    return 5*v(0) - defintegral(x => { return p(x) * v(x)/eR(x) },a,b);
 }
 function Be0(v,dv,a,b) {
     return B( e0 ,v ,e0DX,dv,a,b)
 }
 function L(v,dv,a,b) {
-    console.log("b" + Be0(v,dv,a,b))
-    return _L(v,a,b) - 2*Be0(v,dv,a,b);
+    return _L(v,a,b) + 2*Be0(v,dv,a,b);
 }
 
 function B(u, v,du,dv, a,b) {
@@ -111,8 +110,7 @@ function solveG(n,start,end) {
         for( let j = 0 ; j < n ; ++j ) {
             sum += Wmatrix[i]*baseFuncs[i](h*j);
         }
-        console.log(e0(i))
-        points[i] = sum + 2*e0(i)
+        points[i] = sum - 2*e0(i)
     }
 
     console.log(points)

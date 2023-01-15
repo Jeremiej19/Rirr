@@ -9,10 +9,8 @@ document.querySelector("#start").addEventListener( "click", e => {
 } );
 
 function start(n) {
-    console.log(graph)
     if( graph != undefined ) {
         graph.destroy()
-        console.log("ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD")
     }
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext("2d");
