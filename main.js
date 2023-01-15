@@ -1,25 +1,52 @@
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+var graph 
 
-let n = 20;
-// solveG(10,0,3)
+document.querySelector("#start").addEventListener( "click", e => {
+    let n = Number(document.querySelector("#amount").value)
+    if( n == 0 ) {
+        n += 10
+    }    
+    start(n)
+} );
 
-// console.log(...Array(n).keys())
-
-let graph = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [...Array(n).keys()],
-        datasets: [
-            {
-                label: "f(x) = x",
-                borderColor: "rgba(75, 192, 192, 6)",
-                data: solveG(n,0,3),
-                fill: false,
-                // tension: 0.3
-                tension: 0
-            }
-        ]
-        
+function start(n) {
+    console.log(graph)
+    if( graph != undefined ) {
+        graph.destroy()
+        console.log("ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD")
     }
-})
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // let n = 10;
+    labels = new Array(n);
+    h = 3/n;
+    for( let i = 0 ; i < n+1 ; ++i ) {
+        labels[i] = Math.round(h*i*10)/10
+    }
+    console.log(labels)
+    // solveG(10,0,3)
+    
+    // console.log(...Array(n).keys())
+    
+    graph = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [...labels],
+            datasets: [
+                {
+                    label: "Φ(x)",
+                    borderColor: "rgba(75, 192, 192, 6)",
+                    data: solveG(n+1,0,3),
+                    fill: false,
+                    // tension: 0.3
+                    tension: 0.3
+                }
+            ]
+            
+        }
+    })
+    
+}
+
+

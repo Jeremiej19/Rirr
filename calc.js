@@ -1,7 +1,6 @@
 const DomainL = 0
 const DomainR = 3
-const eps = 10**-9
-const eps2 = 10**-6
+const eps = 0
 
 function BaseFunction( prev , xi , next ) {
     return function(t) {
@@ -55,14 +54,15 @@ function _L(v,a,b) {
     return defintegral(x => { return p(x) * v(x)/eR(x) },a,b) + 5*v(0);
 }
 function Be0(v,dv,a,b) {
-    return B(e0 ,v ,e0DX,dv,a,b)
+    return B( e0 ,v ,e0DX,dv,a,b)
 }
 function L(v,dv,a,b) {
-    return _L(v,a,b) - 0*Be0(v,dv,a,b);
+    console.log("b" + Be0(v,dv,a,b))
+    return _L(v,a,b) - 2*Be0(v,dv,a,b);
 }
 
 function B(u, v,du,dv, a,b) {
-    return  u(0) * v(0) - defintegral(x => { return dv(x) *du(x) },a,b);
+    return  u(0) * v(0) - defintegral(x => { return dv(x) * du(x) },a,b) + du(3) * v(3);
 }
 
 let e0 = NaN;
@@ -109,10 +109,10 @@ function solveG(n,start,end) {
     for( let i = 0 ; i < n ; ++i ){
         sum = 0
         for( let j = 0 ; j < n ; ++j ) {
-            sum += Wmatrix[i]*baseFuncs[j](h*j);
+            sum += Wmatrix[i]*baseFuncs[i](h*j);
         }
         console.log(e0(i))
-        points[i] = sum - 0*e0(i)
+        points[i] = sum + 2*e0(i)
     }
 
     console.log(points)
