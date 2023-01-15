@@ -1,18 +1,21 @@
-/* canvas {
+canvas {
     background-color: white;
-} */
-/* body {
+}
+body {
     background-color: azure;
-} */
-/* main {
-
+}
+main {
     display: flex;
     align-items: center;
+    width: 1000px;
 }
 
-main * {
+main *{
     margin-left: auto;
     margin-right: auto;
+}
+span {
+    width: 900px;
 }
 
 header {
@@ -20,4 +23,5 @@ header {
     text-align: center;
     text-transform: uppercase;
     font-size: x-large;
-} */
+    width: 1000px;
+}

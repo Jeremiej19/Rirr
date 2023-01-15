@@ -16,7 +16,8 @@ let graph = new Chart(ctx, {
                 borderColor: "rgba(75, 192, 192, 6)",
                 data: [2,3,5,1,2],
                 fill: false,
-                tension: 0.0
+                // tension: 0.3
+                tension: 0
             }
         ]
         
