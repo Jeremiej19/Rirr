@@ -1,12 +1,14 @@
 const DomainL = 0
 const DomainR = 3
+const eps = 10**-9
+const eps2 = 10**-6
 
 function BaseFunction( prev , xi , next ) {
     return function(t) {
-        if( t > prev && t <= xi ) {
+        if( t + eps > prev && t <= xi + eps ) {
             return (t-prev)/(xi-prev)
         }
-        else if ( t > xi && t < next) {
+        else if ( t + eps > xi && t <= next + eps) {
             return (next-t)/(next-xi)
         }
         else {
@@ -17,10 +19,10 @@ function BaseFunction( prev , xi , next ) {
 
 function BaseFunctionDerivative( prev , xi , next , h ) {
     return function(t) {
-        if( t > prev && t <= xi ) {
+        if( t + eps > prev && t <= xi + eps ) {
             return 1/h
         }
-        else if ( t > xi && t < next) {
+        else if ( t + eps > xi && t <= next + eps ) {
             return -1/h
         }
         else {
@@ -30,15 +32,11 @@ function BaseFunctionDerivative( prev , xi , next , h ) {
 }
 
 function defintegral( fn , a ,b  ) {
-    
     return gaussLegendre( fn, Math.max(a,DomainL), Math.min(b,DomainR) , 5 );
 }
 
 function eR(x) {
-    if (x > 3) {
-        return 0;
-    }
-    else if ( x >= 2 ) {
+    if ( x >= 2 ) {
         return 1;
     }
     else if ( x >= 1 ) {
@@ -53,14 +51,22 @@ function p(x) {
     return 1;
 }
 
-function L(v,a,b) {
-    return defintegral(x => { return v(x) * p(x)/eR(x) },a,b) + 5*v(0);
+function _L(v,a,b) {
+    return defintegral(x => { return p(x) * v(x)/eR(x) },a,b) + 5*v(0);
+}
+function Be0(v,dv,a,b) {
+    return B(e0 ,v ,e0DX,dv,a,b)
+}
+function L(v,dv,a,b) {
+    return _L(v,a,b) - 0*Be0(v,dv,a,b);
 }
 
 function B(u, v,du,dv, a,b) {
     return  u(0) * v(0) - defintegral(x => { return dv(x) *du(x) },a,b);
 }
 
+let e0 = NaN;
+let e0DX = NaN;
 function solveG(n,start,end) {
     let h = Math.abs(end-start)/n;
     console.log("h" + h);
@@ -70,6 +76,8 @@ function solveG(n,start,end) {
         baseFuncs[i] = (BaseFunction( start+h*(i-1), start+h*i, start+h*(i+1) ))
         baseFuncsDX[i] = (BaseFunctionDerivative( start+h*(i-1), start+h*i, start+h*(i+1) ,h))
     }
+    e0 = baseFuncs[0];
+    e0DX = baseFuncsDX[0];
     console.log(baseFuncs);
     console.log(baseFuncsDX);
 
@@ -82,14 +90,14 @@ function solveG(n,start,end) {
         start = h*(i)
         end = h*(i+1)
         for (let j = 0; j < n; j++) {
-            Bmatrix[i][j] = B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i),h*(i+1))
+            Bmatrix[i][j] = B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i-1),h*(i+1))
         }
     }
     console.log(Bmatrix);
 
     let Lmatrix = new Array(n);
     for (let i = 0; i < n; i++) {
-        Lmatrix[i] = L(baseFuncs[i], h*(i), h*(i+1))
+        Lmatrix[i] = L(baseFuncs[i],baseFuncsDX[i], h*(i-1), h*(i+1))
     } 
     console.log(Lmatrix);
 
@@ -101,12 +109,14 @@ function solveG(n,start,end) {
     for( let i = 0 ; i < n ; ++i ){
         sum = 0
         for( let j = 0 ; j < n ; ++j ) {
-            sum += Wmatrix[j]*baseFuncs[i](h*i);
+            sum += Wmatrix[i]*baseFuncs[j](h*j);
         }
-        points[i] = sum
+        console.log(e0(i))
+        points[i] = sum - 0*e0(i)
     }
 
     console.log(points)
     
+    return points
 
 }
