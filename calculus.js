@@ -16,3 +16,5 @@ const gaussLegendre = (fn, a, b, n) => {
 	const weights = roots.map(v => 2 / ((1 - v ** 2) * df(v) ** 2));
 	return (b - a) / 2 * weights.map((v, i) => v * fn((b - a) * roots[i] / 2 + (a + b) / 2)).reduce((sum, item) => sum + item, 0);
 }
+
+// https://rosettacode.org/wiki/Numerical_integration/Gauss-Legendre_Quadrature#JavaScript
