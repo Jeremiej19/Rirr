@@ -1,13 +1,13 @@
 const DomainL = 0
 const DomainR = 3
-const eps = 0
+const eps = 10**-9
 
 function BaseFunction( prev , xi , next ) {
     return function(t) {
         if( t > prev && t <= xi + eps ) {
             return (t-prev)/(xi-prev)
         }
-        else if ( t + eps >= xi && t <= next + eps) {
+        else if ( t > xi && t < next ) {
             return (next-t)/(next-xi)
         }
         else {
@@ -21,7 +21,7 @@ function BaseFunctionDerivative( prev , xi , next , h ) {
         if( t > prev && t <= xi + eps ) {
             return 1/h
         }
-        else if ( t + eps >= xi && t <= next + eps ) {
+        else if ( t > xi && t < next  ) {
             return -1/h
         }
         else {
@@ -31,20 +31,17 @@ function BaseFunctionDerivative( prev , xi , next , h ) {
 }
 
 function defintegral( fn , a ,b ) {
-    return gaussLegendre( fn, Math.max(a,DomainL), Math.min(b,DomainR) , 27 );
+    return gaussLegendre( fn, Math.max(a,DomainL), Math.min(b,DomainR) , 11 );
 }
 
 function eR(x) {
     if ( x > 2 ) {
-        console.log(1)
         return 1;
     }
     else if ( x > 1 ) {
-        console.log(5)
         return 5;
     }
     else if ( x >= 0 ) {
-        console.log(10)
         return 10;
     }
 }
@@ -57,7 +54,7 @@ function _L(v,a,b) {
     return 5*v(0) - defintegral(x => { return p(x) * v(x)/eR(x) },a,b);
 }
 function Be0(v,dv,a,b) {
-    return B( e0 ,v ,e0DX,dv,a,b)
+    return B( e0 ,v ,e0DX,dv,a,b);
 }
 function L(v,dv,a,b) {
     return _L(v,a,b) - 2*Be0(v,dv,a,b);
@@ -80,8 +77,6 @@ function solveG(n,start,end) {
     }
     e0 = baseFuncs[n-1];
     e0DX = baseFuncsDX[n-1];
-    console.log(baseFuncs);
-    console.log(baseFuncsDX);
 
     let Bmatrix = new Array(n-1);
     for (let i = 0; i < Bmatrix.length; i++) {

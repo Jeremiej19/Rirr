@@ -16,16 +16,13 @@ function start(n) {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // let n = 10;
     labels = new Array(n);
     h = 3/n;
     for( let i = 0 ; i < n+1 ; ++i ) {
         labels[i] = Math.round(h*i*10)/10
     }
-    console.log(labels)
-    // solveG(10,0,3)
+    // console.log(labels)
     
-    // console.log(...Array(n).keys())
     
     graph = new Chart(ctx, {
         type: 'line',
@@ -38,7 +35,7 @@ function start(n) {
                     data: solveG(n+1,0,3),
                     fill: false,
                     // tension: 0.3
-                    tension: 0.3
+                    tension: 0.4
                 }
             ]
             

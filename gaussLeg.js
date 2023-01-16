@@ -1,3 +1,4 @@
+// // https://rosettacode.org/wiki/Numerical_integration/Gauss-Legendre_Quadrature#JavaScript
 // const factorial = n => n  <= 1 ? 1 : n * factorial(n - 1);
 // const M = n => (n - (n % 2 !== 0)) / 2;
 // const gaussLegendre = (fn, a, b, n) => {
@@ -17,7 +18,7 @@
 // 	return (b - a) / 2 * weights.map((v, i) => v * fn((b - a) * roots[i] / 2 + (a + b) / 2)).reduce((sum, item) => sum + item, 0);
 // }
 
-// https://rosettacode.org/wiki/Numerical_integration/Gauss-Legendre_Quadrature#JavaScript
+
 
 function _gaussLegendre( fn ) {
 	w = [5/9, 8/9, 5/9];

@@ -16,6 +16,7 @@ main *{
 }
 span {
     width: 900px;
+    margin: 0 50px;
 }
 
 header, div {
