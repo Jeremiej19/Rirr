@@ -18,3 +18,17 @@ const gaussLegendre = (fn, a, b, n) => {
 }
 
 // https://rosettacode.org/wiki/Numerical_integration/Gauss-Legendre_Quadrature#JavaScript
+
+// function _gaussLegendre( fn, a , b ) {
+// 	w = [5/9, 8/9, 5/9];
+// 	xi = [-0.774597, 0.774597, 0.774597]
+// 	sum = 0;
+// 	for( i in w ) {
+// 		sum += fn(xi[i]) * w[i];
+// 	}
+// 	return sum
+// }
+
+// function gaussLegendre( fn, a , b ) {
+// 	return (b-a)/2 * _gaussLegendre( x => { return fn(x*(b-a)/2 + (a+b)/2 )  } )
+// }
