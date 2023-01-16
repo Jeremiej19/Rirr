@@ -17,7 +17,7 @@ function start(n) {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    labels = new Array(n);
+    labels = new Array(n+1);
     h = 3/n;
     for( let i = 0 ; i < n+1 ; ++i ) {
         labels[i] = Math.round(h*i*100)/100
@@ -35,11 +35,13 @@ function start(n) {
                     borderColor: "rgba(75, 192, 192, 6)",
                     data: solveG(n+1,0,3),
                     fill: false,
-                    // tension: 0.3
-                    tension: 0.4
+                    // tension: 0.3,
+                    tension: 0.4,
                 }
-            ]
-            
+            ],            
+        },
+        options: {
+            animation: false,
         }
     })
     

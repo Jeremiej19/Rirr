@@ -68,13 +68,14 @@ let e0 = NaN;
 let e0DX = NaN;
 function solveG(n,start,end) {
     let h = Math.abs(end-start)/n;
-    // console.log("h " + h);
+
     let baseFuncs = Array(n);
     let baseFuncsDX = Array(n);
-    for( let i = 0 ; i < n + 1 ;  ++i ) {
+    for( let i = 0 ; i < n ;  ++i ) {
         baseFuncs[i] = (BaseFunction( start+h*(i-1), start+h*i, start+h*(i+1) ))
         baseFuncsDX[i] = (BaseFunctionDerivative( start+h*(i-1), start+h*i, start+h*(i+1) ,h))
     }
+    
     e0 = baseFuncs[n-1];
     e0DX = baseFuncsDX[n-1];
 
@@ -90,15 +91,17 @@ function solveG(n,start,end) {
             Bmatrix[i][j] = B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i-1),h*(i)) + B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i),h*(i+1))
         }
     }
-    // console.log(Bmatrix);
+    
 
     let Lmatrix = new Array(n-1);
     for (let i = 0; i < n-1; i++) {
         Lmatrix[i] = L(baseFuncs[i],baseFuncsDX[i], h*(i-1), h*(i)) + L(baseFuncs[i],baseFuncsDX[i], h*(i), h*(i+1))
     } 
-    // console.log(Lmatrix);
+
 
     let Wmatrix = solve(Bmatrix, Lmatrix);
+    // console.log(Bmatrix);
+    // console.log(Lmatrix);
     // console.log(Wmatrix);
 
     points = new Array(n);
