@@ -60,7 +60,7 @@ function Be0(v,dv,a,b) {
     return B( e0 ,v ,e0DX,dv,a,b)
 }
 function L(v,dv,a,b) {
-    return _L(v,a,b) + 2*Be0(v,dv,a,b);
+    return _L(v,a,b) - 2*Be0(v,dv,a,b);
 }
 
 function B(u, v,du,dv, a,b) {
@@ -78,8 +78,8 @@ function solveG(n,start,end) {
         baseFuncs[i] = (BaseFunction( start+h*(i-1), start+h*i, start+h*(i+1) ))
         baseFuncsDX[i] = (BaseFunctionDerivative( start+h*(i-1), start+h*i, start+h*(i+1) ,h))
     }
-    e0 = baseFuncs[n];
-    e0DX = baseFuncsDX[n];
+    e0 = baseFuncs[n-1];
+    e0DX = baseFuncsDX[n-1];
     console.log(baseFuncs);
     console.log(baseFuncsDX);
 
@@ -92,14 +92,14 @@ function solveG(n,start,end) {
         start = h*(i)
         end = h*(i+1)
         for (let j = 0; j < n-1; j++) {
-            Bmatrix[i][j] = B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i-1),h*(i+1))
+            Bmatrix[i][j] = B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i-1),h*(i)) + B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i),h*(i+1))
         }
     }
     console.log(Bmatrix);
 
     let Lmatrix = new Array(n-1);
     for (let i = 0; i < n-1; i++) {
-        Lmatrix[i] = L(baseFuncs[i],baseFuncsDX[i], h*(i-1), h*(i+1))
+        Lmatrix[i] = L(baseFuncs[i],baseFuncsDX[i], h*(i-1), h*(i)) + L(baseFuncs[i],baseFuncsDX[i], h*(i), h*(i+1))
     } 
     console.log(Lmatrix);
 
@@ -114,7 +114,7 @@ function solveG(n,start,end) {
             sum += Wmatrix[j]*baseFuncs[j](h*i);
         }
         console.log(2*e0(h*i))
-        points[i] = sum - 2*e0(h*i)
+        points[i] = sum + 2*e0(h*i)
     }
     // points[n-1] = 2
 
