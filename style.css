@@ -13,16 +13,20 @@ main {
 main *{
     margin-left: auto;
     margin-right: auto;
+    height: 494px;
 }
 span {
     width: 900px;
-    margin: 0 50px;
+    /* margin: 0 50px; */
 }
 
 header, div {
     margin: 30px 15px;
     text-align: center;
+    width: 1000px;
+}
+
+header {
     text-transform: uppercase;
     font-size: x-large;
-    width: 1000px;
 }

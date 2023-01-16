@@ -68,7 +68,7 @@ let e0 = NaN;
 let e0DX = NaN;
 function solveG(n,start,end) {
     let h = Math.abs(end-start)/n;
-    console.log("h" + h);
+    // console.log("h " + h);
     let baseFuncs = Array(n);
     let baseFuncsDX = Array(n);
     for( let i = 0 ; i < n + 1 ;  ++i ) {
@@ -90,16 +90,16 @@ function solveG(n,start,end) {
             Bmatrix[i][j] = B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i-1),h*(i)) + B(baseFuncs[i],baseFuncs[j],baseFuncsDX[i],baseFuncsDX[j],h*(i),h*(i+1))
         }
     }
-    console.log(Bmatrix);
+    // console.log(Bmatrix);
 
     let Lmatrix = new Array(n-1);
     for (let i = 0; i < n-1; i++) {
         Lmatrix[i] = L(baseFuncs[i],baseFuncsDX[i], h*(i-1), h*(i)) + L(baseFuncs[i],baseFuncsDX[i], h*(i), h*(i+1))
     } 
-    console.log(Lmatrix);
+    // console.log(Lmatrix);
 
     let Wmatrix = solve(Bmatrix, Lmatrix);
-    console.log(Wmatrix);
+    // console.log(Wmatrix);
 
     points = new Array(n);
     
@@ -108,12 +108,10 @@ function solveG(n,start,end) {
         for( let j = 0 ; j < n - 1 ; ++j ) {
             sum += Wmatrix[j]*baseFuncs[j](h*i);
         }
-        console.log(2*e0(h*i))
         points[i] = sum + 2*e0(h*i)
     }
-    // points[n-1] = 2
 
-    console.log(points)
+    // console.log(points)
     
     return points
 

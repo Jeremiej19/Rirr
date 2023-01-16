@@ -1,10 +1,11 @@
 var graph 
 
 document.querySelector("#start").addEventListener( "click", e => {
-    let n = Number(document.querySelector("#amount").value)
-    if( n == 0 ) {
-        n += 10
-    }    
+    let n = Math.ceil(Number(document.querySelector("#amount").value))
+    if( n <= 0 ) {
+        return
+    }
+
     start(n)
 } );
 
@@ -19,7 +20,7 @@ function start(n) {
     labels = new Array(n);
     h = 3/n;
     for( let i = 0 ; i < n+1 ; ++i ) {
-        labels[i] = Math.round(h*i*10)/10
+        labels[i] = Math.round(h*i*100)/100
     }
     // console.log(labels)
     
